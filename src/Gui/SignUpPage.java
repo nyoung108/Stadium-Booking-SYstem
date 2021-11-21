@@ -4,11 +4,7 @@
  * and open the template in the editor.
  */
 package Gui;
-
-/**
- *
- * @author PC
- */
+import libraryFunctions.*;
 public class SignUpPage extends javax.swing.JFrame {
 
     /**
@@ -114,9 +110,29 @@ public class SignUpPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
+        boolean addUser = true;
         String email = new String(emailEntered.getText());
+        boolean validEmail = formatChecks.validEmail(email);
+            if(validEmail == false){
+                System.out.println("Your email is not in the correct format");
+                addUser = false;
+            }
         String password = new String(passwordEntered.getText());
         String passwordCheck = new String(passwordCheckEntered.getText());
+        boolean validPassword = formatChecks.validPassword(password, passwordCheck);
+        if(validPassword == false){
+            System.out.println("Password incorrect format");
+            addUser = false;
+        } 
+        if(addUser==true){
+            String userID = generateID.uniqueId();
+            databaseOrders.addUser(userID, email, password);
+            System.out.println("Welcome");
+            HomePage home = new HomePage();
+            home.setVisible(true);
+            this.dispose();
+            
+        }
     }//GEN-LAST:event_signUpButtonActionPerformed
 
     /**
